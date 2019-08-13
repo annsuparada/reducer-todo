@@ -11,7 +11,7 @@ const Todo = () => {
             {state.map(todo => {
                 return <h1 key={todo.id}>{todo.item}</h1>
             })}
-            
+            <input />
         </div>
     )
 }
