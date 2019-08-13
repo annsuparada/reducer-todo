@@ -1,21 +1,15 @@
-export const initialState = [
-    {
-    item: 'Learn about reducers',
-    completed: false,
-    id: 1
-    }, 
-    {
-    item: 'Learn more Javascript',
-    completed: false,
-    id: 2
-    },
-    {
-    item: 'Learn more React',
-    completed: false,
-    id: 3
+export const initialState = {
+            task: 'Learn about reducers',
+            completed: false,
+            id: 1  
+        }
+export const todoReducer = (state, action) => {
+    console.log(state)
+    switch (action.type) {
+        case "TOGG_ITEM":
+          return 
+        default:
+            return state;
     }
-]
-
-export const todoReducer = (state, atcion) => {
-    return
+    
 }
