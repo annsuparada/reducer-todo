@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useReducer } from 'react';
+import { initialState, todoReducer } from '../reducer/todoReducer';
+import Todo from './Todo.js';
+import TodoForm from './TodoForm.js';
 
-function TodoList({ list, toggle })  {
-    console.log()
-    return (
-        <div>
-            {list.map(todo => (
-                <div onClick={() => toggle(todo.id)}>{todo.item}</div>
-            ))}
-        </div>
-    )
-};
+const TodoList = () => {
+  const [state, dispatch] = useReducer(todoReducer, initialState);
+
+  // console.log('state', state);
+  // console.log('dispatch', dispatch);
+
+  const addTodo = task => 
+    dispatch({ type: 'ADD_TODO', payload: task });
+
+  const toggleCompleted = id => 
+    dispatch({ type: 'TOGGLE_COMPLETED', payload: id });
+
+  const clearCompleted = () => 
+    dispatch({ type: 'CLEAR_COMPLETED'});
+
+  const handleChange = event =>
+    dispatch({ type: 'HANDLE_CHANGE', payload: event.target.value })
+
+  return (
+    <div className='todo-list'>
+      <TodoForm 
+        task={state.task}
+        addTodo={addTodo}
+        handleChange={handleChange}
+        clearCompleted={clearCompleted}
+      />
+      {state.todos.map(todo => {
+        return <Todo {...todo} key={todo.id} toggleCompleted={toggleCompleted} />
+      })}
+    </div>
+  )
+}
 
 export default TodoList;
