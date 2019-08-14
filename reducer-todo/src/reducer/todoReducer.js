@@ -1,13 +1,29 @@
 export const initialState = {
-            task: 'Learn about reducers',
-            completed: false,
-            id: 1  
-        }
+    todos: [
+      {
+        item: "Learn about reducers",
+        completed: false,
+        id: Date.now()
+      }
+    ]
+  };
 export const todoReducer = (state, action) => {
     console.log(state)
     switch (action.type) {
-        case "TOGG_ITEM":
-          return 
+        case "ADD_TODO":
+            return {
+                ...state,
+                todos:state.todos.concat({item: action.payload, completed: false, id: Date.now()})
+            }
+        case "TOGGLE_TODO":
+            return {
+                ...state,
+                todos:state.todos.map(todo => 
+                    todo.id === action.payload 
+                    ? {...todo, completed: !todo.completed} 
+                    : todo
+                )
+            }
         default:
             return state;
     }

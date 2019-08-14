@@ -1,90 +1,32 @@
-import React, { useState} from 'react';
+import React, { useReducer} from 'react';
 import ReactDOM from 'react-dom';
 import TodoList from './component/TodoList'
 import TodoForm from './component/TodoForm'
 
+import { todoReducer, initialState} from './reducer/todoReducer'
 import './App.css';
 
-const groceriesData = [
-  {
-    name: 'Bananas',
-    id: 123,
-    purchased: false
-  },
-  {
-    name: 'Torillas',
-    id: 124,
-    purchased: false
-  },
-  {
-    name: 'Milk',
-    id: 1235,
-    purchased: false
-  },
-  {
-    name: 'Pizza Sauce',
-    id: 1246,
-    purchased: false
-  },
-  {
-    name: 'Raw Honey',
-    id: 1237,
-    purchased: false
-  },
-  {
-    name: 'Granola',
-    id: 1248,
-    purchased: false
-  }
-]
+
 const App = () => {
-  const [groceries, setGroceries] = useState(groceriesData)
+  const [state, dispatch] = useReducer(todoReducer, initialState)
 
-  const toggleItem = id => {
-    console.log(id)
-    setGroceries( groceries.map(item => {
-        if(item.id === id) {
-          return {
-            ...item,
-            // name: item.name,
-            // id: item.id,
-            // purchased: item.purchased,
-           purchased: !item.purchased
-          }
-        } else {
-          return item;
-        }
-      })
-    )
-
+  const addTodo = item => {
+    dispatch({type: "ADD_TODO", payload: item })
   }
-
-  const addItem = itemName => {
-    const newItem = {
-      name: itemName,
-      id: Date.now(),
-      purchased: false
-    }
-    setGroceries([...groceries, newItem]);
-  }
-  const clearPurchased = () => {
-    setGroceries(groceries.filter(item => !item.purchased)
-    );
-  };
-
   
+  const toggle = item => {
+    dispatch({type: "TOGGLE_TODO", payload: item })
+  }
     return (
       <div className="App">
         <div className="header">
-          <h1>Shopping List</h1>
+          
           <TodoForm 
-            addItem={addItem}
-            
+            add={addTodo}
           />
           <TodoList  
-            groceries={groceries} 
-            toggleItem={toggleItem}
-            clearPurchased={clearPurchased}
+            list={state.todos}
+            toggle={toggle}
           />
           
         </div>
